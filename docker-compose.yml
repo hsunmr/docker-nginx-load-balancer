@@ -1,0 +1,42 @@
+version: "3.8"
+services:
+  nginx:
+    restart: unless-stopped
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./projects:/projects
+      - ./nginx/sites:/etc/nginx/conf.d
+    networks:
+      - backend
+
+  flask-app1:
+    build: flask-app1
+    container_name: flask-app1
+    volumes:
+      - ./projects:/app
+    networks:
+      - backend
+
+  flask-app2:
+    build: flask-app2
+    container_name: flask-app2
+    volumes:
+      - ./projects:/app
+    networks:
+      - backend
+
+  flask-app3:
+    build: flask-app3
+    container_name: flask-app3
+    volumes:
+      - ./projects:/app
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: 'bridge'
